@@ -12,11 +12,11 @@ class Api {
     public $response = [];
 
     public function toArray(){
-        return array(
+        return [
             'errors' => $this->errors,
             'messages' => $this->messages,
             'response' => $this->response
-        );
+        ];
     }
 
     private function set_error($error){
@@ -48,8 +48,8 @@ class Api {
 
             case 'get_email':
 
-                if(isset($data['id']))
-                    $this->get_email($data['id']);
+                if(isset($data['id']) && isset($data['skey']))
+                    $this->get_email($data['id'], $data['skey']);
                 else
                     $this->set_error('No users id in data');
 
@@ -62,24 +62,24 @@ class Api {
 
     private function auth($login, $password){
 
-        $this->params = array(
+        $this->params = [
             'login' => $login,
-            'password' => $password);
+            'password' => $password];
 
-        $this->response['id'] = Users::auth($login, $password);
+        $this->response['user'] = Users::auth($login, $password);
 
-        if(!empty($this->response['id']))
+        if(!empty($this->response['user']))
             $this->set_messages('Success auth');
         else
             $this->set_error('No valid login or password');
 
     }
 
-    private function get_email($id){
+    private function get_email($id, $skey){
 
-        $this->params = array('id' => $id);
+        $this->params = ['id' => $id];
 
-        $this->response['email'] = Users::get_emai_by_id($id);
+        $this->response['email'] = Users::get_emai_by_id($id, $skey);
 
         if(!empty($this->response['email']))
             $this->set_messages('Success get email by id');

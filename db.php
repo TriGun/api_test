@@ -49,4 +49,10 @@ class DBConnection{
 
     }
 
+    public function update($query){
+
+        mysql_query($query);
+
+    }
+
 }
