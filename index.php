@@ -3,17 +3,25 @@
 require_once('api.php');
 require_once('db.php');
 
-if(isset($_POST['action'])){
+if(isset($_POST['q'])){
 
-    $db = DBConnection::getInstance();
-    $db->connect();
+    parse_str(base64_decode($_POST['q']), $data);
 
-    $api = new Api();
-    $api->do_action($_POST);
+    if(isset($data['action'])){
 
-    echo json_encode($api->toArray());
+        $db = DBConnection::getInstance();
+        $db->connect();
+
+        $api = new Api();
+        $api->do_action($data);
+
+        echo base64_encode(json_encode( $api->toArray() ));
+
+    }
 
 }
+
+
 
 
 

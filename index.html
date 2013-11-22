@@ -27,7 +27,9 @@
 
         $('.login_btn').on('click', function(){
 
-            $.post('index.php', $(this).closest('form').serialize(), function(data){
+            $.post('index.php', 'q=' + btoa( $(this).closest('form').serialize() ), function(data){
+
+                data = JSON.parse(atob(data));
 
                 if(data.errors)
                     $('.stack').append(data.errors + '<br>');
@@ -45,7 +47,7 @@
                 if(data.response['email'])
                     $('.stack').append('User email :: ' + data.response['email'] + '<br>');
 
-            }, 'json');
+            });
 
             return false;
 

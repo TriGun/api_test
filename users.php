@@ -12,11 +12,9 @@ class Users {
 
         $result = $db->get("SELECT id FROM users WHERE login = '{$login}' and password = '{$password}'");
 
-
-
         if(!empty($result[0])){
 
-            $result[0]->skey = time();
+            $result[0]->skey = md5( time() );
             $db->update("UPDATE users set skey = '{$result[0]->skey}' WHERE id = {$result[0]->id}");
 
             return $result[0];
