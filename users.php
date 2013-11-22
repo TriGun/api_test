@@ -25,12 +25,12 @@ class Users {
 
     }
 
-    static function get_emai_by_id($id, $skey){
+    static function get_emai_by_id($id, $skey, $private_key){
 
         $db = DBConnection::getInstance();
         $id = mysql_real_escape_string($id);
 
-        $result = $db->get("SELECT email FROM users WHERE id = '{$id}' and skey = '{$skey}'");
+        $result = $db->get("SELECT email FROM users WHERE id = '{$id}' and skey = '{$skey}' and private_key = '{$private_key}'");
 
         if(!empty($result[0]))
             return $result[0]->email;

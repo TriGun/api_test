@@ -47,6 +47,8 @@ class DBConnection{
 
         mysql_query($query);
 
+        return mysql_insert_id();
+
     }
 
     public function update($query){

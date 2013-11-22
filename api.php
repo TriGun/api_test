@@ -48,8 +48,8 @@ class Api {
 
             case 'get_email':
 
-                if(isset($data['id']) && isset($data['skey']))
-                    $this->get_email($data['id'], $data['skey']);
+                if(isset($data['id']) && isset($data['skey']) && isset($data['private_key']))
+                    $this->get_email($data['id'], $data['skey'], $data['private_key']);
                 else
                     $this->set_error('No users id in data');
 
@@ -75,11 +75,11 @@ class Api {
 
     }
 
-    private function get_email($id, $skey){
+    private function get_email($id, $skey, $private_key){
 
         $this->params = ['id' => $id];
 
-        $this->response['email'] = Users::get_emai_by_id($id, $skey);
+        $this->response['email'] = Users::get_emai_by_id($id, $skey, $private_key);
 
         if(!empty($this->response['email']))
             $this->set_messages('Success get email by id');
