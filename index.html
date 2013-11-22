@@ -3,6 +3,7 @@
 <head>
     <title>Test</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="aes.js"></script>
 </head>
 <body>
 
@@ -16,6 +17,7 @@
 <form action="index.php" method="post" id="get_email">
     <input type="hidden" name="action" value="get_email">
     <input type="hidden" name="skey" value="" id="skey">
+    <input type="hidden" name="private_key" value="4375NDYHBHBK34534BL534B534" id="en_key">
     ID<input name="id" type="text">
     <button class="login_btn">Get login by ID</button>
 </form>
@@ -23,13 +25,16 @@
 <div class="stack"></div>
 
 <script>
+
     $(function(){
 
         $('.login_btn').on('click', function(){
 
-            $.post('index.php', 'q=' + btoa( $(this).closest('form').serialize() ), function(data){
+            var EN_KEY = $('#en_key').val();
 
-                data = JSON.parse(atob(data));
+            $.post('index.php', 'q=' + btoa(Aes.Ctr.encrypt( $(this).closest('form').serialize(), EN_KEY, 128)), function(data){
+
+                data = JSON.parse(Aes.Ctr.decrypt(atob(data.trim()), EN_KEY, 128));
 
                 if(data.errors)
                     $('.stack').append(data.errors + '<br>');
